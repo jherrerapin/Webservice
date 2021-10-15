@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -14,5 +16,17 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    $results = app('db')->select("SELECT * FROM peliculas");
+    return response()->json($results);
+    
 });
+
+$router->get('/pelicula', function () use ($router) {
+    return "Prueba";
+});
+
+$router->post('/pelicula', function (Request $request) use ($router) {
+    return "insert".$request->get("nombre")."AAAA";
+    //return response()->json($request->all());
+});
+
