@@ -33,7 +33,11 @@ $router->get('/peliculas/', function () use ($router) {
 
 
 $router->post('/pelicula', function (Request $request) use ($router) {
-    return "insert".$request->get("nombre")."AAAA";
-    //return response()->json($request->all());
+    $sql = "INSERT INTO peliculas (nombre, duracion, categoria, fecha_estreno, poster_estreno) 
+    VALUES ('".$request->get("nombre")."','".$request->get("duracion")."','".$request->get("categoria")."','".$request->get("fecha_estreno")."','".$request->get("poster_estreno")."')";
+    $results = app('db')->insert($sql);
+    $results = app('db')->select("SELECT id, nombre, duracion, categoria, fecha_estreno 
+    FROM peliculas ORDER BY 1 DESC LIMIT 1");
+    return response()->json($results);
 });
 
