@@ -41,3 +41,16 @@ $router->post('/pelicula', function (Request $request) use ($router) {
     return response()->json($results);
 });
 
+$router->put('/pelicula/{id}', function (Request $request, $id) {
+    $sql = "UPDATE peliculas SET nombre='{$request->get('nombre')}', duracion={$request->get('duracion')}, categoria='{$request->get('categoria')}', fecha_estreno='{$request->get('fecha_estreno')}', poster_estreno='{$request->get('poster_estreno')}' WHERE id={$id}";
+    $results = app('db')->update($sql);
+    $results = app('db')->select("SELECT id, nombre, duracion, categoria, fecha_estreno 
+    FROM peliculas WHERE id=" . $id . " limit 1");
+    return response()->json($results);
+});
+
+$router->delete('/pelicula/{id}', function ($id) use ($router) {
+    $sql = "DELETE FROM peliculas WHERE id='{$id}'";
+    $results = app ('db')->delete($sql);
+    return response()->json(["deleted" => true ]);
+});
